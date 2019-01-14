@@ -1,0 +1,8 @@
+1. Place all cards into Dictionary
+2. Get cards from dictionary
+
+create Duomenu klases
+sukurti kontroleri kuris savyje laiko duomenu klases
+sukurti view klase kuri parodo duomenis
+
+su kontroleriu pradedu daryti zaidimo eiga
