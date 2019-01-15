@@ -8,7 +8,7 @@ namespace BlackJackGame
         public void DisplayPlayerInfo(Player pl)
         {
             Console.WriteLine(pl.Name);
-            Console.WriteLine(pl.Money);
+            Console.WriteLine("$" + pl.Money);
         }
 
         public void DisplayDealerInfo(Dealer dl)
@@ -22,7 +22,11 @@ namespace BlackJackGame
             {
                 Console.WriteLine(card);
             }
+        }
 
+        public void DisplayPoints(Unit unit)
+        {
+            Console.WriteLine(unit.GetPoins());
             Console.WriteLine();
         }
     }

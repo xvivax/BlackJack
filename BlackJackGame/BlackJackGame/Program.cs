@@ -11,7 +11,7 @@ namespace BlackJackGame
         static void Main(string[] args)
         {
             GameController gameController = new GameController();
-            gameController.Init();
+            gameController.Game();
             //gameController.D();
 
             Console.ReadKey();

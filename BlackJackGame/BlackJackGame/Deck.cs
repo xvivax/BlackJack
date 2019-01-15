@@ -35,7 +35,7 @@ namespace BlackJackGame
             for (int i = 0; i < 4; i++)
             {
                 // Value loop
-                for (int j = 0; j < 13; j++)
+                for (int j = 1; j < 13 + 1; j++)
                 {
                     lDeck.Add(new Card((Suit)i, (Value)j));
                 }

@@ -1,4 +1,6 @@
-﻿namespace BlackJackGame
+﻿using System;
+
+namespace BlackJackGame
 {
     public enum Suit
     {
@@ -10,7 +12,7 @@
 
     public enum Value
     {
-        Ace,
+        Ace = 1,
         Two,
         Three,
         Four,
@@ -44,6 +46,11 @@
         public override string ToString()
         {
             return $"{value} of {suit}";
+        }
+
+        public int GetValue()
+        {
+            return (int)value;
         }
     }
 }
