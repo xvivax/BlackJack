@@ -16,6 +16,37 @@ namespace BlackJackGame
         {
             menu.ShowMenu(players);
             Console.Clear();
+
+            for (int i = 0; i < players.Count; i++)
+            {
+                bool pass = false;
+                while (!pass)
+                {                    
+                    Console.WriteLine("-====Player" + (i + 1) + "====-");
+                    Console.WriteLine("Place your bet");
+                    int bet = 0;
+                    if (!int.TryParse(Console.ReadLine(), out bet))
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Bet can only contains numbers. Try again");
+                        continue;
+                    }
+
+                    if (players[i].Money < bet)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("You don't have enough money to make this bet. Try again");
+                        continue;
+                    }
+
+                    players[i].Bet = bet;
+                    players[i].Money -= bet;
+                    pass = true;
+                    Console.Clear();
+                }
+
+            }
+
             Init();
             CalculatePoints(dealer);
 
@@ -23,6 +54,9 @@ namespace BlackJackGame
             {
                 CalculatePoints(player);
             }
+
+            
+
             Render();
         }
 
