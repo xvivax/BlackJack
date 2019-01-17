@@ -7,6 +7,7 @@ namespace BlackJackGame
     {
         private List<Card> ownCards = new List<Card>();
         private Deck deck = new Deck();
+        private Card hiddenCard = new Card();
 
         public string Name { get; }
 
@@ -27,6 +28,11 @@ namespace BlackJackGame
         public Card DealCard()
         {
             return deck.GetCard();
+        }
+
+        public void SetHiddenCard(Card card)
+        {
+            hiddenCard = card;
         }
     }
 }

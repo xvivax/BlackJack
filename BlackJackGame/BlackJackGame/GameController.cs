@@ -17,11 +17,30 @@ namespace BlackJackGame
             menu.ShowMenu(players);
             Console.Clear();
 
+            while (true)
+            {
+                Update();
+                Render();
+            }
+
+        }
+
+        public void Update()
+        {
+            InitCards();
+
+            CalculatePoints(dealer);
+
+            foreach (Player player in players)
+            {
+                CalculatePoints(player);
+            }
+
             for (int i = 0; i < players.Count; i++)
             {
                 bool pass = false;
                 while (!pass)
-                {                    
+                {
                     Console.WriteLine("-====Player" + (i + 1) + "====-");
                     Console.WriteLine("Place your bet");
                     int bet = 0;
@@ -47,22 +66,18 @@ namespace BlackJackGame
 
             }
 
-            Init();
-            CalculatePoints(dealer);
-
-            foreach (Player player in players)
-            {
-                CalculatePoints(player);
-            }
-
-            
-
-            Render();
+            CalcWinner();
         }
 
-        public void Init()
+        private void CalcWinner()
         {
-            // Give two initial cards to the dealer and player[s]
+            
+        }
+
+        public void InitCards()
+        {
+            // Give two initial cards to the and player[s] and one to the dealer
+
             for (int i = 0; i < 2; i++)
             {
                 dealer.AddCard(dealer.DealCard());
@@ -70,7 +85,15 @@ namespace BlackJackGame
                 {
                     player.AddCard(dealer.DealCard());
                 }
+
+                if (i == 1)
+                {
+                    // Set last card as hidden card
+                    dealer.SetHiddenCard(dealer.GetCards()[1]);
+                }
             }
+
+            dealer.GetCards();
         }
 
         public void CalculatePoints(Unit unit)
