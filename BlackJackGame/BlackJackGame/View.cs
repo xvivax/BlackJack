@@ -28,7 +28,7 @@ namespace BlackJackGame
                     dealerInfo.Add(card.ToString());
                 }               
             }
-            dealerInfo.Add(dl.GetPoins().ToString());
+            dealerInfo.Add("Points: " + dl.GetPoins().ToString());
             dealerInfo.Add("");
 
             if (dl.Busted)
