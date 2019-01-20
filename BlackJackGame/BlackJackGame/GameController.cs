@@ -47,7 +47,6 @@ namespace BlackJackGame
             UnitInit();
             Betting();
             InitCards();
-            //Render();
             HitStand();
             HitStandDealer();
             CalcWinner();
@@ -138,27 +137,32 @@ namespace BlackJackGame
         {
             for (int i = 0; i < players.Count; i++)
             {
+                Console.Clear();
+                Render();
+
                 bool pass = false;
                 while (!pass)
                 {
-                    Console.Clear();
-                    Console.WriteLine("-=== New Round ===-");
-                    Console.WriteLine(players[i].Name + " place your bet");
+                    //Console.Clear();
+                    //Console.WriteLine("-=== New Round ===-");
+                    //Console.WriteLine(players[i].Name + " place your bet");
 
                     int bet = 0;
-                    while (!int.TryParse(Console.ReadLine(), out bet) || bet < 0)
-                    {
-                        Console.WriteLine("Wrong bet. Try again");
-                    }
+                    //while (!int.TryParse(Console.ReadLine(), out bet) || bet < 0)
+                    //{
+                    //    Console.WriteLine("Wrong bet. Try again");
+                    //}
 
-                    while (players[i].Money < bet)
-                    {
-                        Console.WriteLine("You don't have enough money to make this bet. Try again");
-                        while (!int.TryParse(Console.ReadLine(), out bet))
-                        {
-                            Console.WriteLine("Bet can only contains numbers. Try again");
-                        }
-                    }
+                    //while (players[i].Money < bet)
+                    //{
+                    //    Console.WriteLine("You don't have enough money to make this bet. Try again");
+                    //    while (!int.TryParse(Console.ReadLine(), out bet))
+                    //    {
+                    //        Console.WriteLine("Bet can only contains numbers. Try again");
+                    //    }
+                    //}
+
+                    view.ShowPlacingBet(players[i], ref bet, i * 20);
 
                     players[i].Bet = bet;
                     players[i].Money -= bet;
@@ -234,7 +238,7 @@ namespace BlackJackGame
                 CalculatePoints(dealer);
                 Console.Clear();
                 Render();
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1500);
             }
 
             if (dealer.GetPoins() > 21)

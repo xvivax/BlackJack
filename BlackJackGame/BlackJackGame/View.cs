@@ -8,6 +8,7 @@ namespace BlackJackGame
     {
         public TextBlock dealer;
         public TextBlock player;
+        public TextBlock bets;
 
         public void ShowDealer(Dealer dl)
         {
@@ -82,6 +83,43 @@ namespace BlackJackGame
             Button turn = new Button(20 + offset, 8, pl.Name + " turn");
             turn.SetActive();
             turn.Render();
+        }
+
+        public void ShowPlacingBet(Player pl, ref int bet, int offset)
+        {
+            List<string> betting = new List<string>();
+
+            betting.Add("[" + pl.Name + "]");
+            betting.Add("Place your bet");
+            bets = new TextBlock(20 + offset, 20, 10, betting);            
+            bets.Render();
+            Console.SetCursorPosition(20 + offset, 22);
+
+            while (!int.TryParse(Console.ReadLine(), out bet) || bet < 0)
+            {
+                betting.Clear();
+                betting.Add("Wrong bet. Try again");
+                bets = new TextBlock(20 + offset, 20, 10, betting);
+                bets.Render();
+                Console.SetCursorPosition(20 + offset, 22);
+            }
+
+            while (pl.Money < bet)
+            {
+                betting.Clear();
+                betting.Add("You don't have enough money to make this bet. Try again");
+                bets = new TextBlock(20 + offset, 20, 10, betting);
+                bets.Render();
+                Console.SetCursorPosition(20 + offset, 22);
+                while (!int.TryParse(Console.ReadLine(), out bet))
+                {
+                    betting.Clear();
+                    betting.Add("Bet can only contains numbers. Try again");
+                    bets = new TextBlock(20 + offset, 20, 10, betting);
+                    bets.Render();
+                    Console.SetCursorPosition(20 + offset, 22);
+                }
+            }
         }
 
         public void DisplayPlayerInfo(Player pl)
