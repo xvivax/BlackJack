@@ -32,10 +32,7 @@ namespace BlackJackGame
         private Suit suit;
         private Value value;
 
-        public Card()
-        {
-
-        }
+        public bool IsHidden { get; set; } = false;
 
         public Card(Suit suit, Value value)
         {

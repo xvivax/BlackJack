@@ -7,7 +7,6 @@ namespace BlackJackGame
     {
         private List<Card> ownCards = new List<Card>();
         private Deck deck = new Deck();
-        private Card hiddenCard = new Card();
 
         public string Name { get; }
         public bool Busted { get; set; }
@@ -34,7 +33,7 @@ namespace BlackJackGame
 
         public void SetHiddenCard(Card card)
         {
-            hiddenCard = card;
+            card.IsHidden = true;
         }
 
         public int LeftCardsInDeck()

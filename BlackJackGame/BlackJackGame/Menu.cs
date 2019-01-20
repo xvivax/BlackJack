@@ -80,8 +80,8 @@ namespace BlackJackGame
 
             while (showmenu)
             {
-                Console.WriteLine("How many players are going to play?");
-                if (int.TryParse(Console.ReadLine(), out int playerCount))
+                Console.WriteLine("How many players are going to play? (Max 4)");
+                if (int.TryParse(Console.ReadLine(), out int playerCount) && playerCount > 0 && playerCount <= 4)
                 {
                     for (int i = 0; i < playerCount; i++)
                     {
@@ -92,7 +92,7 @@ namespace BlackJackGame
 
                         Console.WriteLine("Enter how much money player has");
                         int money = 0;
-                        while (!int.TryParse(Console.ReadLine(), out money))
+                        while (!int.TryParse(Console.ReadLine(), out money) || money < 0)
                         {
                             Console.WriteLine("Wrong number. Try again.");
                             Console.WriteLine("Enter how much money player" + (i+1) + " has");

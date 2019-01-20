@@ -20,8 +20,8 @@ namespace BlackJackGame
 
         List<Button> buttonsList = new List<Button>()
         {
-            new Button(20, 15, "Hit"),
-            new Button(30, 15, "Stand")
+            new Button(50, 24, "Hit"),
+            new Button(60, 24, "Stand")
         };
 
         public void Game()
@@ -45,9 +45,9 @@ namespace BlackJackGame
             }
 
             UnitInit();
-            InitCards();
             Betting();
-            Render();
+            InitCards();
+            //Render();
             HitStand();
             HitStandDealer();
             CalcWinner();
@@ -72,8 +72,6 @@ namespace BlackJackGame
         {
             for (int i = 0; i < players.Count; i++)
             {
-
-                //Console.WriteLine("-=== " + players[i].Name + " turn ===-");
                 State currentState = State.Hit;
                 buttonsList[0].SetActive();
                 buttonsList[1].SetNotActive();
@@ -84,17 +82,17 @@ namespace BlackJackGame
                 do
                 {
                     Console.Clear();
+                    view.ShowWhoesTurn(players[i], i * 20);
+                    Render();
+
                     CalculatePoints(players[i]);
                     if (players[i].GetPoins() > 21)
                     {
                         players[i].Busted = true;
-                        Render();
                         needMoreCards = false;
                     }
                     else
                     {
-                        Render();
-
                         RenderHitStand();
 
                         while (Console.KeyAvailable)
@@ -130,9 +128,8 @@ namespace BlackJackGame
                                     break;
                             }
                         }
-                        System.Threading.Thread.Sleep(100);
+                        System.Threading.Thread.Sleep(200);
                     }
-                    
                 } while (needMoreCards);
             }
         }
@@ -149,9 +146,9 @@ namespace BlackJackGame
                     Console.WriteLine(players[i].Name + " place your bet");
 
                     int bet = 0;
-                    while (!int.TryParse(Console.ReadLine(), out bet))
+                    while (!int.TryParse(Console.ReadLine(), out bet) || bet < 0)
                     {
-                        Console.WriteLine("Bet can only contains numbers. Try again");
+                        Console.WriteLine("Wrong bet. Try again");
                     }
 
                     while (players[i].Money < bet)
@@ -182,15 +179,10 @@ namespace BlackJackGame
                 {
                     player.AddCard(dealer.DealCard());
                 }
-
-                if (i == 1)
-                {
-                    // Set last card as hidden card
-                    dealer.SetHiddenCard(dealer.GetCards()[1]);
-                }
             }
 
-            //dealer.GetCards();
+            // Set first dealer card as hidden
+            dealer.GetCards()[0].IsHidden = true;
 
             CalcAllPoints();
             Render();
@@ -204,14 +196,17 @@ namespace BlackJackGame
 
             foreach (Card card in cards)
             {
-                // TODO fullfill game logic, add Ace's to be as 1 or 11
-                if (card.GetValue() >= 10)
+                if (!card.IsHidden)
                 {
-                    score += 10;
-                }
-                else
-                {
-                    score += card.GetValue();
+                    // TODO fullfill game logic, add Ace's to be as 1 or 11
+                    if (card.GetValue() >= 10)
+                    {
+                        score += 10;
+                    }
+                    else
+                    {
+                        score += card.GetValue();
+                    }
                 }
             }
 
@@ -230,6 +225,9 @@ namespace BlackJackGame
 
         private void HitStandDealer()
         {
+            dealer.GetCards()[0].IsHidden = false;
+            CalculatePoints(dealer);
+
             while (dealer.GetPoins() <= 16)
             {
                 dealer.AddCard(dealer.DealCard());
@@ -285,47 +283,58 @@ namespace BlackJackGame
 
         public void Render()
         {
-            // Display Dealer Info
-            view.DisplayDealerInfo(dealer);
-            view.DisplayCards(dealer.GetCards());
-            view.DisplayPoints(dealer);
-            if (dealer.Busted)
-            {
-                view.DisplayBusted(dealer);
-            }
+            view.ShowDealer(dealer);
 
-            Console.WriteLine();
-
-            // Display players Info
+            int playersOffset = 0;
             foreach (Player player in players)
             {
-                view.DisplayPlayerInfo(player);
-                view.DisplayCards(player.GetCards());
-                view.DisplayPoints(player);
-                if (player.Busted)
-                {
-                    view.DisplayBusted(player);
-                }
-                else if (player.Win)
-                {
-                    view.DisplayWin(player);
-                }
-                else if (player.Push)
-                {
-                    view.DisplayPush(player);
-                }
-
-                if (player.Lose)
-                {
-                    view.DisplayLose(player);
-                }
-
-                Console.WriteLine();
+                view.ShowPlayer(player, playersOffset);
+                playersOffset += 20;
             }
+
+
+            //// Display Dealer Info
+            //view.DisplayDealerInfo(dealer);
+            //view.DisplayCards(dealer.GetCards());
+            //view.DisplayPoints(dealer);
+            //if (dealer.Busted)
+            //{
+            //    view.DisplayBusted(dealer);
+            //}
+
+            //Console.WriteLine();
+
+            //// Display players Info
+            //foreach (Player player in players)
+            //{
+            //    view.DisplayPlayerInfo(player);
+            //    view.DisplayCards(player.GetCards());
+            //    view.DisplayPoints(player);
+            //    if (player.Busted)
+            //    {
+            //        view.DisplayBusted(player);
+            //    }
+            //    else if (player.Win)
+            //    {
+            //        view.DisplayWin(player);
+            //    }
+            //    else if (player.Push)
+            //    {
+            //        view.DisplayPush(player);
+            //    }
+
+            //    if (player.Lose)
+            //    {
+            //        view.DisplayLose(player);
+            //    }
+
+            //    Console.WriteLine();
+            //}
         }
 
         private void RenderHitStand()
         {
+
             foreach (Button button in buttonsList)
             {
                 button.Render();

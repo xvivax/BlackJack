@@ -6,6 +6,84 @@ namespace BlackJackGame
 {
     public class View
     {
+        public TextBlock dealer;
+        public TextBlock player;
+
+        public void ShowDealer(Dealer dl)
+        {
+            List<string> dealerInfo = new List<string>();
+
+            dealerInfo.Add(dl.Name);
+            dealerInfo.Add("");
+            dealerInfo.Add("-== Cards ==-");
+            foreach (var card in dl.GetCards())
+            {
+                if (card.IsHidden)
+                {
+                    dealerInfo.Add("HIDDEN");
+                }
+                else
+                {
+                    dealerInfo.Add(card.ToString());
+                }               
+            }
+            dealerInfo.Add(dl.GetPoins().ToString());
+            dealerInfo.Add("");
+
+            if (dl.Busted)
+            {
+                dealerInfo.Add("BUSTED");
+            }
+
+            dealer = new TextBlock(50, 0, 15, dealerInfo);
+            dealer.Render();
+        }
+
+        public void ShowPlayer(Player pl, int offset)
+        {
+            List<string> playerInfo = new List<string>();
+
+            playerInfo.Add("Name: " + pl.Name);
+            playerInfo.Add("Bank: $" + pl.Money);
+            playerInfo.Add("");
+            playerInfo.Add("-== Cards ==-");
+            foreach (var card in pl.GetCards())
+            {
+                playerInfo.Add(card.ToString());
+            }
+            playerInfo.Add("Points: " + pl.GetPoins().ToString());
+            playerInfo.Add("");
+
+
+            if (pl.Busted)
+            {
+                playerInfo.Add("BUSTED");
+            }
+            else if (pl.Win)
+            {
+                playerInfo.Add(pl.Name + " won $" + pl.Bet);
+            }
+            else if (pl.Push)
+            {
+                playerInfo.Add("PUSH");
+            }
+
+            if (pl.Lose)
+            {
+                playerInfo.Add(pl.Name + " lose $" + pl.Bet);
+            }
+
+            player = new TextBlock(20 + offset, 13, 15, playerInfo);
+            player.Render();
+        }
+
+        public void ShowWhoesTurn(Player pl, int offset)
+        {
+            Button turn = new Button(20 + offset, 8, pl.Name + " turn");
+            turn.SetActive();
+            turn.Render();
+        }
+
         public void DisplayPlayerInfo(Player pl)
         {
             Console.WriteLine(pl.Name);
