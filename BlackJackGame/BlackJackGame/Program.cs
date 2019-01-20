@@ -14,7 +14,8 @@ namespace BlackJackGame
             gameController.Game();
             //gameController.D();
 
-            Console.ReadKey();
+
+            //Console.ReadKey();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace BlackJackGame
         private Card hiddenCard = new Card();
 
         public string Name { get; }
+        public bool Busted { get; set; }
 
         public Dealer()
         {

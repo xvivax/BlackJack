@@ -42,10 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityChanger.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Dealer.cs" />
     <Compile Include="Deck.cs" />
+    <Compile Include="Frame.cs" />
     <Compile Include="GameController.cs" />
+    <Compile Include="GuiObject.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

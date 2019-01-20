@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace BlackJackGame
 {
@@ -27,7 +28,21 @@ namespace BlackJackGame
         public void DisplayPoints(Unit unit)
         {
             Console.WriteLine(unit.GetPoins());
-            Console.WriteLine();
+        }
+
+        public void DisplayBusted(Unit unit)
+        {
+            Console.WriteLine("BUSTED");
+        }
+
+        public void DisplayWin(Player pl)
+        {
+            Console.WriteLine(pl.Name + " won " + pl.Bet);
+        }
+
+        public void DisplayLose(Player pl)
+        {
+            Console.WriteLine(pl.Name + " lose $" + pl.Bet);
         }
     }
 }
