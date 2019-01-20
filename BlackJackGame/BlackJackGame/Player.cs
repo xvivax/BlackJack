@@ -11,6 +11,8 @@ namespace BlackJackGame
         public int Bet { get; set; }
         public bool Busted { get; set; } = false;
         public bool Win { get; set; } = false;
+        public bool Push { get; set; } = false;
+        public bool Lose { get; set; } = false;
 
         public Player()
         {

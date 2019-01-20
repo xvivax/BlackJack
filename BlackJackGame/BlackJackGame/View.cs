@@ -44,5 +44,10 @@ namespace BlackJackGame
         {
             Console.WriteLine(pl.Name + " lose $" + pl.Bet);
         }
+
+        public void DisplayPush(Player pl)
+        {
+            Console.WriteLine("PUSH");
+        }
     }
 }

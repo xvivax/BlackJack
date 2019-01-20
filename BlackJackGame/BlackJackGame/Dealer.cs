@@ -23,7 +23,8 @@ namespace BlackJackGame
 
         public void ShuffleDeck()
         {
-            deck.Shuffle();
+            deck = new Deck();
+            //deck.Shuffle();
         }
 
         public Card DealCard()
@@ -34,6 +35,11 @@ namespace BlackJackGame
         public void SetHiddenCard(Card card)
         {
             hiddenCard = card;
+        }
+
+        public int LeftCardsInDeck()
+        {
+           return deck.CardInDeck();
         }
     }
 }

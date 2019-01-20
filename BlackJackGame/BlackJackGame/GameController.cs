@@ -28,9 +28,6 @@ namespace BlackJackGame
         {
             if (menu.ShowMenu(players) != -1)
             {
-                InitCards();
-                Betting();
-
                 while (true)
                 {
                     Update();
@@ -41,11 +38,34 @@ namespace BlackJackGame
 
         private void Update()
         {
+            // Reshuffle deck when low amount of cards
+            if (dealer.LeftCardsInDeck() < 20)
+            {
+                dealer.ShuffleDeck();
+            }
+
+            UnitInit();
+            InitCards();
+            Betting();
             Render();
             HitStand();
             HitStandDealer();
             CalcWinner();
             Console.ReadLine();
+        }
+
+        private void UnitInit()
+        {
+            dealer.ClearCards();
+            dealer.Busted = false;
+            foreach (Player player in players)
+            {
+                player.ClearCards();
+                player.Busted = false;
+                player.Lose = false;
+                player.Win = false;
+                player.Push = false;
+            }
         }
 
         private void HitStand()
@@ -125,8 +145,9 @@ namespace BlackJackGame
                 while (!pass)
                 {
                     Console.Clear();
-                    Console.WriteLine("-====Player" + (i + 1) + "====-");
-                    Console.WriteLine("Place your bet");
+                    Console.WriteLine("-=== New Round ===-");
+                    Console.WriteLine(players[i].Name + " place your bet");
+
                     int bet = 0;
                     while (!int.TryParse(Console.ReadLine(), out bet))
                     {
@@ -136,7 +157,10 @@ namespace BlackJackGame
                     while (players[i].Money < bet)
                     {
                         Console.WriteLine("You don't have enough money to make this bet. Try again");
-                        bet = Convert.ToInt32(Console.ReadLine());
+                        while (!int.TryParse(Console.ReadLine(), out bet))
+                        {
+                            Console.WriteLine("Bet can only contains numbers. Try again");
+                        }
                     }
 
                     players[i].Bet = bet;
@@ -166,7 +190,7 @@ namespace BlackJackGame
                 }
             }
 
-            dealer.GetCards();
+            //dealer.GetCards();
 
             CalcAllPoints();
             Render();
@@ -234,18 +258,28 @@ namespace BlackJackGame
                         players[i].Win = true;
                         players[i].Money += players[i].Bet;
                     }
-                    else if (players[i].GetPoins() > dealer.GetPoins())
+                    else if (players[i].GetPoins() > dealer.GetPoins()) // player wins by points
                     {
                         players[i].Win = true;
-                        players[i].Money += players[i].Bet;
-                        Console.Clear();
-                        Render();
+                        players[i].Money += players[i].Bet * 2;
                     }
-                    else
+                    else if (players[i].GetPoins() == dealer.GetPoins()) // push
                     {
-                        view.DisplayLose(players[i]);
+                        players[i].Money += players[i].Bet;
+                        players[i].Push = true;
+
+                    }
+                    else // player lose by points
+                    {
+                        players[i].Lose = true;
                     }
                 }
+                else
+                {
+                    players[i].Lose = true;
+                }
+                Console.Clear();
+                Render();
             }
         }
 
@@ -259,6 +293,8 @@ namespace BlackJackGame
             {
                 view.DisplayBusted(dealer);
             }
+
+            Console.WriteLine();
 
             // Display players Info
             foreach (Player player in players)
@@ -274,9 +310,18 @@ namespace BlackJackGame
                 {
                     view.DisplayWin(player);
                 }
-            }
+                else if (player.Push)
+                {
+                    view.DisplayPush(player);
+                }
 
-            Console.WriteLine();
+                if (player.Lose)
+                {
+                    view.DisplayLose(player);
+                }
+
+                Console.WriteLine();
+            }
         }
 
         private void RenderHitStand()

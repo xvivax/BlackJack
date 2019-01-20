@@ -68,5 +68,10 @@ namespace BlackJackGame
         {
             return qDeck.Dequeue();
         }
+
+        public int CardInDeck()
+        {
+            return qDeck.Count;
+        }
     }
 }

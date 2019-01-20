@@ -7,6 +7,11 @@ namespace BlackJackGame
         protected int points = 0;
         protected List<Card> cards;
 
+        public void ClearCards()
+        {
+            cards.Clear();
+        }
+
         public List<Card> GetCards()
         {
             return cards;
